@@ -20,5 +20,85 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DE917A6D-9548-4D99-8271-290C4284C132"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project_18_2/NavigationTabBar/NavigationViewTabBar.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "changeColorAndImage(selected:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FDA5DF1C-6A7B-4F7B-A09E-940C9C7808E4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project_18_2/NavigationTabBar/NavigationViewTabBar.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2F07F60E-1E39-4947-BAFB-3FB7CED9DF44"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project_18_2/NavigationTabBar/NavigationViewTabBar.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "selectedPub"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "2F07F60E-1E39-4947-BAFB-3FB7CED9DF44 - 9193bd6ed57361dc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Project_18_2.TabBarViewModel.(selectedPub in _D81D1144228B58AF163F20475ED58901).getter : Combine.AnyPublisher&lt;(SwiftUI.Color, Swift.String), Swift.Never&gt;"
+                  moduleName = "Project_18_2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikitafrolov/Swift%20Projects/AngelsIT/Project_18_2/Project_18_2/NavigationTabBar/NavigationViewTabBar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "906">
+               </Location>
+               <Location
+                  uuid = "2F07F60E-1E39-4947-BAFB-3FB7CED9DF44 - e942952de4ed8dd1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Int) -&gt; (SwiftUI.Color, Swift.String) in Project_18_2.TabBarViewModel.(selectedPub in _D81D1144228B58AF163F20475ED58901).getter : Combine.AnyPublisher&lt;(SwiftUI.Color, Swift.String), Swift.Never&gt;"
+                  moduleName = "Project_18_2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikitafrolov/Swift%20Projects/AngelsIT/Project_18_2/Project_18_2/NavigationTabBar/NavigationViewTabBar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "26"
+                  endingLineNumber = "26"
+                  offsetFromSymbolStart = "34">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

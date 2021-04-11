@@ -10,8 +10,8 @@ import SwiftUI
 struct HeaderLogIN: View {
     @Environment(\.presentationMode) var presentationMode
     
-    @State var title: String
-    @State var navigationLeftButton: Bool
+    var title: String
+    var navigationLeftButton: Bool
     
     var body: some View {
         GeometryReader { reader in

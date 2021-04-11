@@ -16,8 +16,7 @@ struct ContentView: View {
     
     var body: some View {
         if endSplash {
-            NavigationLogIn()
-                .environment(\.managedObjectContext, viewContext)
+            NavigationViewTabBar()
         } else {
             ZStack {
                 ConstantsColors.background

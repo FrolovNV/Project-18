@@ -14,7 +14,6 @@ struct NavigationLogIn: View {
     var body: some View {
         NavigationView {
             LogInView()
-                .environment(\.managedObjectContext, viewContext)
                 .navigationBarHidden(true)
         }
     }

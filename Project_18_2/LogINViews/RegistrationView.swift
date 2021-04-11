@@ -30,59 +30,85 @@ struct RegistrationView: View {
     
     
     var body: some View {
-        GeometryReader { reader in
-            VStack {
-                HeaderLogIN(title: "REGISTER", navigationLeftButton: true)
-                    .frame(height: 200)
-                Spacer()
-                ScrollView {
-                    TextFieldForLogin(text: $emailText, titleName: titleEmail, imageName: "Mail", placeHolderName: "Email", flag: flagEmail)
-                    TextFieldWithSecurity(text: $password, imageName: "Key", titleName: titlePassword, placeholder: "Password", flag: false)
-                    TextFieldForLogin(text: $firstName, titleName: titleFirstName, imageName: "Person", placeHolderName: "", flag: false)
-                    TextFieldForLogin(text: $lastName, titleName: titleLastName, imageName: "Person", placeHolderName: "", flag: false)
-                    
-                    Button(action: {
-                        if (emailText.isEmpty || password.isEmpty || firstName.isEmpty || lastName.isEmpty) {
-                            showAlert.toggle()
-                            alertTitle = "Fields"
-                            alertMessage = "Fields must'n be empty"
-                            return
-                        }
-                        let findUser = user.first{$0.email == emailText}
-                        if findUser != nil {
-                            titleEmail = "Email already exist"
-                            flagEmail = true
-                            return
-                        }
-                        let newUser = UserModels(context: self.viewContext)
-                        newUser.email = emailText
-                        newUser.password = password
-                        newUser.firstName = firstName
-                        newUser.lastName = lastName
-                        do {
-                            try self.viewContext.save()
-                        } catch {
-                            print(error)
-                        }
-                        alertTitle = "Ready!"
-                        alertMessage = "You have registered"
-                        showAlert = true
-                        self.presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        Text("Register")
-                            .font(.custom("Roboto-Medium", size: 16))
-                            .foregroundColor(.white)
-                    })
-                    .frame(width: UIScreen.main.bounds.width / 2, height: 40)
-                    .background(
-                        RoundedRectangle(cornerRadius: 5.5)
-                            .foregroundColor(.blue)
-                    )
-                }
+        VStack {
+            HeaderLogIN(title: "REGISTER", navigationLeftButton: true)
+                .frame(height: 200)
+            Spacer()
+            ScrollView {
+                TextFieldForLogin(
+                    text: $emailText,
+                    titleName: titleEmail,
+                    imageName: "Mail",
+                    placeHolderName: "Email",
+                    flag: flagEmail
+                )
+                TextFieldWithSecurity(
+                    text: $password,
+                    imageName: "Key",
+                    titleName: titlePassword,
+                    placeholder: "Password",
+                    flag: false
+                )
+                TextFieldForLogin(
+                    text: $firstName,
+                    titleName: titleFirstName,
+                    imageName: "Person",
+                    placeHolderName: "",
+                    flag: false
+                )
+                TextFieldForLogin(
+                    text: $lastName,
+                    titleName: titleLastName,
+                    imageName: "Person",
+                    placeHolderName: "",
+                    flag: false
+                )
+                
+                Button(action: {
+                    if (emailText.isEmpty || password.isEmpty || firstName.isEmpty || lastName.isEmpty) {
+                        showAlert.toggle()
+                        alertTitle = "Fields"
+                        alertMessage = "Fields must'n be empty"
+                        return
+                    }
+                    let findUser = user.first{$0.email == emailText}
+                    if findUser != nil {
+                        titleEmail = "Email already exist"
+                        flagEmail = true
+                        return
+                    }
+                    let newUser = UserModels(context: self.viewContext)
+                    newUser.email = emailText
+                    newUser.password = password
+                    newUser.firstName = firstName
+                    newUser.lastName = lastName
+                    do {
+                        try self.viewContext.save()
+                    } catch {
+                        print(error)
+                    }
+                    alertTitle = "Ready!"
+                    alertMessage = "You have registered"
+                    showAlert = true
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Text("Register")
+                        .font(.custom("Roboto-Medium", size: 16))
+                        .foregroundColor(.white)
+                })
+                .frame(width: UIScreen.main.bounds.width / 2, height: 40)
+                .background(
+                    RoundedRectangle(cornerRadius: 5.5)
+                        .foregroundColor(.blue)
+                )
             }
         }
         .alert(isPresented: $showAlert) {
-            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("Ok!")))
+            Alert(
+                title: Text(alertTitle),
+                message: Text(alertMessage),
+                dismissButton: .default(Text("Ok!"))
+            )
         }
         .navigationBarHidden(true)
     }

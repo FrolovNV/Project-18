@@ -6,8 +6,57 @@
 //
 
 import SwiftUI
+import Combine
+
+class TabBarViewModel: ObservableObject {
+    @Published var selected: Int = 1
+    
+    @Published var colorOfButton: Color = Color.init("Orange")
+    @Published var imageNameOfButton: String = "plus"
+    
+    @Published var colorAndName: (Color, String) = (
+        Color.init("Orange"),
+        "plus"
+        )
+    
+    private var selectedPub: AnyPublisher<(Color, String), Never> {
+        $selected
+            .receive(on: DispatchQueue.main)
+            .debounce(for: 0.1, scheduler: RunLoop.main)
+            .map { value in
+                print(value)
+                return self.changeColorAndImage(selected: value)
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private func changeColorAndImage(selected: Int)->(Color, String) {
+        switch selected {
+        case 1:
+            return (Color.init("Orange"), "plus")
+        case 2...3:
+            return (Color.init("LightGreen"), "checkmark")
+        case 4:
+            return (Color.init("LightGreen"), "pencil")
+        default:
+            return (Color.init("Orange"), "plus")
+        }
+    }
+    
+    init() {
+        selectedPub
+            .receive(on: DispatchQueue.main)
+            .map{ value in
+                print(value)
+                return value
+            }
+            .assign(to: \.colorAndName, on: self)
+    }
+}
 
 struct NavigationViewTabBar: View {
+    
+    @ObservedObject var tabBarViewModel = TabBarViewModel()
     
     let width = UIScreen.main.bounds.width
     
@@ -24,19 +73,19 @@ struct NavigationViewTabBar: View {
                 .frame(width: width, height: 65)
 
             
-            Image(systemName: "plus")
+            Image(systemName: tabBarViewModel.colorAndName.1)
                 .foregroundColor(.white)
                 .imageScale(.large)
                 .background(
                     Circle()
                         .frame(width: 50, height: 50)
-                        .foregroundColor(Color.init("LightGreen"))
+                        .foregroundColor(tabBarViewModel.colorAndName.0)
                 )
                 .offset(y: -10)
             HStack {
-                PairOfIcon(imageName1: imagesName[0][0], imageName2: imagesName[0][1], name1: namesOfCell[0][0], name2: namesOfCell[0][1], selector: $selector, sectionCount: 2)
+                PairOfIcon(imageName1: imagesName[0][0], imageName2: imagesName[0][1], name1: namesOfCell[0][0], name2: namesOfCell[0][1], selector: $tabBarViewModel.selected, sectionCount: 2)
                 Spacer()
-                PairOfIcon(imageName1: imagesName[1][0], imageName2: imagesName[1][1], name1: namesOfCell[1][0], name2: namesOfCell[1][1], selector: $selector, sectionCount: 4)
+                PairOfIcon(imageName1: imagesName[1][0], imageName2: imagesName[1][1], name1: namesOfCell[1][0], name2: namesOfCell[1][1], selector: $tabBarViewModel.selected, sectionCount: 4)
             }
             
         }
