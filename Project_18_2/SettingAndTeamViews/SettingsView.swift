@@ -26,6 +26,20 @@ struct SettingsView: View {
             )
                 .frame(height: 200)
             Spacer()
+            HStack {
+                Button(action: {
+                    UserDefaults.standard.set(false, forKey: "userLoggedIn")
+                    UserDefaults.standard.set("", forKey: "userLogin")
+                    self.userSettings.userLogin = ""
+                    self.userSettings.userLoggedIn.toggle()
+                }, label: {
+                    Text("Sign Out")
+                        .font(.custom("Roboto-Bold", size: 25))
+                        .foregroundColor(Color("RedError"))
+                })
+                Spacer()
+            }
+            .padding()
         }
         .onAppear {
             let res = try! self.viewContext.fetch(UserModels.getUserByEmail(email: self.userSettings.userLogin!))
@@ -34,5 +48,11 @@ struct SettingsView: View {
         .sheet(isPresented: $showSheet) {
             ChangeSettings(user: user!, changeEnd: $showSheet)
         }
+    }
+}
+
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView(showSheet: .constant(false))
     }
 }

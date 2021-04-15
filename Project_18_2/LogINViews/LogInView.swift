@@ -77,7 +77,6 @@ struct LogInView: View {
                 Text("Register")
                     .font(.custom("Roboto-Medium", size: 15))
                     .foregroundColor(.blue)
-                    .environment(\.managedObjectContext, viewContext)
             }
             .alert(isPresented: $showAlert) {
                 Alert(

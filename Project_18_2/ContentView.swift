@@ -16,13 +16,17 @@ struct ContentView: View {
     
     var body: some View {
         if endSplash {
-            if userSetting.userLoggedIn {
-                MainNavigationView()
-                    .environmentObject(userSetting)
-            } else {
-                LogInView()
-                    .environmentObject(userSetting)
+            NavigationView {
+                if userSetting.userLoggedIn {
+                    MainNavigationView()
+                        .navigationBarHidden(true)
+                } else {
+                    LogInView()
+                        .navigationBarHidden(true)
+                }
             }
+            .environmentObject(userSetting)
+            
         } else {
             ZStack {
                 ConstantsColors.background

@@ -45,6 +45,7 @@
 		05B482FC262340830097DD99 /* HeaderSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B482FB262340830097DD99 /* HeaderSettings.swift */; };
 		05B482FF262346400097DD99 /* ChangeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B482FE262346400097DD99 /* ChangeSettings.swift */; };
 		05C8C7CE26288471004782C5 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C8C7CD26288471004782C5 /* ImagePicker.swift */; };
+		05CF8F292628C3CA00BE6A17 /* TestSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05CF8F282628C3CA00BE6A17 /* TestSwiftUI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +89,7 @@
 		05B482FB262340830097DD99 /* HeaderSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderSettings.swift; sourceTree = "<group>"; };
 		05B482FE262346400097DD99 /* ChangeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSettings.swift; sourceTree = "<group>"; };
 		05C8C7CD26288471004782C5 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		05CF8F282628C3CA00BE6A17 /* TestSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSwiftUI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				05971C04261CC704002CA8FB /* Fonts */,
 				0533DCBE261CBFE400FA0AA6 /* Preview Content */,
 				05971BE8261CC20A002CA8FB /* CoreDataModel.xcdatamodeld */,
+				05CF8F282628C3CA00BE6A17 /* TestSwiftUI.swift */,
 			);
 			path = Project_18_2;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				05971BF8261CC684002CA8FB /* HeaderLogIN.swift in Sources */,
 				05C8C7CE26288471004782C5 /* ImagePicker.swift in Sources */,
 				05B482EC262337220097DD99 /* ListItemBackground.swift in Sources */,
+				05CF8F292628C3CA00BE6A17 /* TestSwiftUI.swift in Sources */,
 				05B482F126233AEF0097DD99 /* MainNavigationView.swift in Sources */,
 				05B482F626233CBC0097DD99 /* UserDefaultsSettings.swift in Sources */,
 				05B482E8262336DA0097DD99 /* ListItem.swift in Sources */,

@@ -13,22 +13,20 @@ struct MainNavigationView: View {
     @StateObject var tabBarView = TabBarViewModel()
     
     var body: some View {
-        NavigationView {
-            VStack {
-                switch tabBarView.selected {
-                case 1...3:
-                    Text("Not ready")
-                case 4:
-                    SettingsView(showSheet: $tabBarView.showSheet)
-                default:
-                    Text("Not ready")
-                }
-                Spacer()
-                NavigationViewTabBar(tabBarViewModel: tabBarView)
+        VStack {
+            switch tabBarView.selected {
+            case 1...3:
+                Text("Not ready")
+            case 4:
+                SettingsView(showSheet: $tabBarView.showSheet)
+            default:
+                Text("Not ready")
             }
-            .navigationBarHidden(true)
-            .ignoresSafeArea(.all)
+            Spacer()
+            NavigationViewTabBar(tabBarViewModel: tabBarView)
         }
+        .navigationBarHidden(true)
+        .ignoresSafeArea(.all)
     }
 }
 

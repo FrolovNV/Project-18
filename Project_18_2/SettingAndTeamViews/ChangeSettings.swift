@@ -12,7 +12,7 @@ struct ChangeSettings: View {
     @Binding var changeEnd: Bool
     @State var user: UserModels
     
-    @State var image = UIImage()
+    @State var image = UIImage(named: "Person")!
     @State var firstName: String = ""
     @State var lastName: String  = ""
     @State var email: String = ""
