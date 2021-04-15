@@ -9,14 +9,20 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
+    @StateObject var userSetting = UserDefaultsSettings()
     @Environment(\.managedObjectContext) private var viewContext
-    
     @State private var animationStart = false
     @State private var endSplash = false
     
     var body: some View {
         if endSplash {
-            NavigationViewTabBar()
+            if userSetting.userLoggedIn {
+                MainNavigationView()
+                    .environmentObject(userSetting)
+            } else {
+                LogInView()
+                    .environmentObject(userSetting)
+            }
         } else {
             ZStack {
                 ConstantsColors.background

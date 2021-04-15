@@ -9,8 +9,8 @@ import SwiftUI
 
 struct IconForTabBar: View {
     
-    @State var imageName: String
-    @State var name: String
+    var imageName: String
+    var name: String
     var flag: Bool
     
     var body: some View {
@@ -22,9 +22,9 @@ struct IconForTabBar: View {
                     .font(.custom("Roboto-Medium", size: 10))
                     .foregroundColor(.white)
             }
+            .frame(width: 58, height: 30)
             .background(
                 RoundedRectangle(cornerRadius: 5)
-                    .frame(width: 58, height: 30)
                     .foregroundColor(Color.init("Blue"))
             )
         } else {

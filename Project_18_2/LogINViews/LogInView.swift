@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct LogInView: View {
+    @EnvironmentObject var userSettings: UserDefaultsSettings
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(fetchRequest: UserModels.getUserWithEmail()) var user: FetchedResults<UserModels>
+    @FetchRequest(fetchRequest: UserModels.getAllUsers()) var user: FetchedResults<UserModels>
     
     @State private var emailText = ""
     @State private var passwordText = ""
@@ -53,6 +54,10 @@ struct LogInView: View {
                     alertOfEmail = false
                     titleOfPassword = "PASSWORD"
                     alertOfPassword = false
+                    UserDefaults.standard.set(true, forKey: "userLoggedIn")
+                    UserDefaults.standard.set(currentUser?.email, forKey: "userLogin")
+                    userSettings.userLogin = currentUser?.email
+                    userSettings.userLoggedIn = true
                 }, label: {
                     Text("Log In")
                         .font(.custom("Roboto-Medium", size: 16))

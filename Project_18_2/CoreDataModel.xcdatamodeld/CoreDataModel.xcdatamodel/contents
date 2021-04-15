@@ -4,10 +4,12 @@
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="firstName" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
+        <attribute name="mobile" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="UserModels" positionX="-54" positionY="-9" width="128" height="104"/>
+        <element name="UserModels" positionX="-54" positionY="-9" width="128" height="134"/>
     </elements>
 </model>

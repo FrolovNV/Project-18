@@ -15,16 +15,30 @@ public class UserModels: NSManagedObject, Identifiable {
     @NSManaged public var password: String
     @NSManaged public var firstName: String
     @NSManaged public var lastName: String
+    @NSManaged public var mobile: String?
+    @NSManaged public var image: Data?
 }
 
 //MARK:-UserModels query
 extension UserModels {
     
-    static func getUserWithEmail()->NSFetchRequest<UserModels> {
+    static func getAllUsers()->NSFetchRequest<UserModels> {
         let req = UserModels.fetchRequest() as! NSFetchRequest<UserModels>
         let sort = NSSortDescriptor(key: "email", ascending: true)
         req.sortDescriptors = [sort]
         return req
     }
     
+//    static func getUserByEmail(email: String)-> NSFetchRequest<UserModels> {
+//        let fetch = NSFetchRequest<UserModels>(entityName: "UserModels")
+//        fetch.predicate = NSPredicate(format: "email == %@", email)
+//        return fetch
+//    }
+    
+    static func getUserByEmail(email: String)-> NSFetchRequest<UserModels> {
+        let request = self.getAllUsers()
+        let pred = NSPredicate(format: "email CONTAINS %@", email as NSString)
+        request.predicate = pred
+        return request
+    }
 }

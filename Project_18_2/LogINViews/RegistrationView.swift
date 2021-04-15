@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct RegistrationView: View {
+    @EnvironmentObject var userSettings: UserDefaultsSettings
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(fetchRequest: UserModels.getUserWithEmail()) var user: FetchedResults<UserModels>
+    @FetchRequest(fetchRequest: UserModels.getAllUsers()) var user: FetchedResults<UserModels>
     @Environment(\.presentationMode) var presentationMode
     
     @State var emailText: String = ""
@@ -90,6 +91,10 @@ struct RegistrationView: View {
                     alertTitle = "Ready!"
                     alertMessage = "You have registered"
                     showAlert = true
+                    UserDefaults.standard.set(true, forKey: "userLoggedIn")
+                    UserDefaults.standard.set(newUser.email, forKey: "userLogin")
+                    userSettings.userLogin = newUser.email
+                    userSettings.userLoggedIn = true
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
                     Text("Register")
