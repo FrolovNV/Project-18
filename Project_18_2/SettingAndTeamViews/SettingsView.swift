@@ -6,25 +6,68 @@
 //
 
 import SwiftUI
+import Combine
 import CoreData
+
+
+final class SettingsViewModel: ObservableObject {
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    @Published private var user: UserModels?
+    
+    var image: UIImage {
+        get {
+            guard let imageData = user?.image else {return UIImage(named: "Person")!}
+            guard let uiImage = UIImage(data: imageData) else {return UIImage(named: "Person")!}
+            return uiImage
+        }
+    }
+    var firstName: String {
+        get {
+            return user?.firstName ?? ""
+        }
+    }
+    var lastName: String {
+        get {
+            return user?.lastName ?? ""
+        }
+    }
+    var email: String {
+        get {
+            return user?.email ?? ""
+        }
+    }
+    var mobileNumber: String {
+        get {
+            return user?.mobile ?? ""
+        }
+    }
+    
+    func getUser(_ email: String) {
+        let res = try! viewContext.fetch(UserModels.getUserByEmail(email: email))
+        user = res[0]
+    }
+    
+}
 
 struct SettingsView: View {
     @EnvironmentObject var userSettings: UserDefaultsSettings
     @Binding var showSheet: Bool
     @State var user: UserModels?
     @Environment(\.managedObjectContext) private var viewContext
+    @StateObject var viewModel: SettingsViewModel = .init()
     
     
     var body: some View {
         VStack {
             HeaderSettings(
-                imageName: UIImage(data: user?.image ?? Data()),
-                firstName: user?.firstName ?? "",
-                lastName: user?.lastName ?? "",
-                email: user?.lastName ?? "",
-                mobileNumber: user?.mobile ?? ""
+                image: viewModel.image,
+                firstName: viewModel.firstName,
+                lastName: viewModel.lastName,
+                email: viewModel.email,
+                mobileNumber: viewModel.mobileNumber
             )
-                .frame(height: 200)
+            .frame(height: 200)
             Spacer()
             HStack {
                 Button(action: {
@@ -42,8 +85,7 @@ struct SettingsView: View {
             .padding()
         }
         .onAppear {
-            let res = try! self.viewContext.fetch(UserModels.getUserByEmail(email: self.userSettings.userLogin!))
-            self.user = res[0]
+            viewModel.getUser(userSettings.userLogin!)
         }
         .sheet(isPresented: $showSheet) {
             ChangeSettings(user: user!, changeEnd: $showSheet)

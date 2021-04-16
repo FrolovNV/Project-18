@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HeaderSettings: View {
     
-    var imageName: UIImage?
+    var image: UIImage?
     var firstName: String
     var lastName: String
     var email: String
@@ -21,7 +21,7 @@ struct HeaderSettings: View {
                 ConstantsColors.background
                     .ignoresSafeArea(.all)
                 HStack {
-                    Image(uiImage: imageName ?? UIImage())
+                    Image(uiImage: image ?? UIImage())
                         .resizable()
                         .scaledToFill()
                         .frame(width: 100, height: 100)
