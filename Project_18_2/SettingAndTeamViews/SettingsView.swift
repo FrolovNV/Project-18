@@ -11,40 +11,30 @@ import CoreData
 
 
 final class SettingsViewModel: ObservableObject {
-    @Environment(\.managedObjectContext) private var viewContext
-    
-    @Published private var user: UserModels?
+    @Published public var user: UserModels?
     
     var image: UIImage {
-        get {
-            guard let imageData = user?.image else {return UIImage(named: "Person")!}
-            guard let uiImage = UIImage(data: imageData) else {return UIImage(named: "Person")!}
-            return uiImage
+        guard let imageData = user?.image,
+              let uiImage = UIImage(data: imageData) else {
+            return UIImage(named: "Person")!
         }
+        return uiImage
     }
     var firstName: String {
-        get {
-            return user?.firstName ?? ""
-        }
+        user?.firstName ?? ""
     }
     var lastName: String {
-        get {
-            return user?.lastName ?? ""
-        }
+        user?.lastName ?? ""
     }
     var email: String {
-        get {
-            return user?.email ?? ""
-        }
+        user?.email ?? ""
     }
     var mobileNumber: String {
-        get {
-            return user?.mobile ?? ""
-        }
+        user?.mobile ?? ""
     }
     
-    func getUser(_ email: String) {
-        let res = try! viewContext.fetch(UserModels.getUserByEmail(email: email))
+    func getUser(_ email: String, from context: NSManagedObjectContext) {
+        let res = try! context.fetch(UserModels.getUserByEmail(email: email))
         user = res[0]
     }
     
@@ -85,10 +75,10 @@ struct SettingsView: View {
             .padding()
         }
         .onAppear {
-            viewModel.getUser(userSettings.userLogin!)
+            viewModel.getUser(userSettings.userLogin!, from: viewContext)
         }
         .sheet(isPresented: $showSheet) {
-            ChangeSettings(user: user!, changeEnd: $showSheet)
+            ChangeSettings(user: viewModel.user!, changeEnd: $showSheet)
         }
     }
 }

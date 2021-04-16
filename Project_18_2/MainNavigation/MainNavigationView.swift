@@ -13,7 +13,7 @@ struct MainNavigationView: View {
     @StateObject var tabBarView = TabBarViewModel()
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             switch tabBarView.selected {
             case 1...3:
                 Text("Not ready")
@@ -24,6 +24,9 @@ struct MainNavigationView: View {
             }
             Spacer()
             NavigationViewTabBar(tabBarViewModel: tabBarView)
+            Rectangle()
+                .foregroundColor(Color("DBlue"))
+                .frame(width: UIScreen.main.bounds.width, height: 5)
         }
         .navigationBarHidden(true)
         .ignoresSafeArea(.all)
