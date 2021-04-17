@@ -6,6 +6,73 @@
 //
 
 import SwiftUI
+import Combine
+import CoreData
+
+
+class LogInViewModel: ObservableObject {
+    @Published var email = ""
+    @Published var password = ""
+    
+    @Published public var statusEmail: (String, Bool) = ("EMAIL", false)
+    @Published public var statusPassword: (String, Bool) = ("PASSWORD", false)
+    @Published public var isValid: Bool = false
+    
+    private var cancellableSet: Set<AnyCancellable> = []
+    
+    private var isEmailEmptyPublisher: AnyPublisher<Bool, Never> {
+        $email
+            .debounce(for: 0.1, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map { email in
+                return email == ""
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private var isPasswordEmptyPublisher: AnyPublisher<Bool, Never> {
+        $password
+            .debounce(for: 0.1, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map { password in
+                return password == ""
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private var sameAreEmpty: AnyPublisher<Bool, Never> {
+        Publishers.CombineLatest(isEmailEmptyPublisher, isPasswordEmptyPublisher)
+            .map { emailFlag, passwordFlag in
+                return !emailFlag && !passwordFlag
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    init() {
+        sameAreEmpty
+            .receive(on: RunLoop.main)
+            .assign(to: \.isValid, on: self)
+            .store(in: &cancellableSet)
+    }
+    
+    func checkUser(context:  NSManagedObjectContext)-> Bool {
+        let request = try! context.fetch(UserModels.getAllUsers())
+        let res = request.first{$0.email == self.email}
+        if res == nil {
+            statusEmail.0 = "EMAIL ERROR"
+            statusEmail.1 = true
+            return false
+        }
+        if res?.password != self.password {
+            statusPassword.0 = "WRONG PASSWORD"
+            statusPassword.1 = true
+            return false
+        }
+        
+        return true
+    }
+    
+}
 
 struct LogInView: View {
     @EnvironmentObject var userSettings: UserDefaultsSettings
@@ -24,6 +91,9 @@ struct LogInView: View {
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     
+    
+    @StateObject var viewModel: LogInViewModel = .init()
+    
     var body: some View {
         
         VStack {
@@ -31,42 +101,34 @@ struct LogInView: View {
                 .frame(height: 200)
             Spacer()
             ScrollView {
-                TextFieldForLogin(text: $emailText, titleName: titleOfEmail, imageName: "Mail", placeHolderName: "EMAIL", flag: alertOfEmail)
-                TextFieldWithSecurity(text: $passwordText, imageName: "Key", titleName: titleOfPassword, placeholder: "Password", flag: alertOfPassword)
+                TextFieldForLogin(
+                    text: $viewModel.email,
+                    titleName: viewModel.statusEmail.0,
+                    imageName: "Mail",
+                    placeHolderName: "EMAIL",
+                    flag: viewModel.statusEmail.1
+                )
+                TextFieldWithSecurity(
+                    text: $viewModel.password,
+                    imageName: "Key",
+                    titleName: viewModel.statusPassword.0,
+                    placeholder: "Password",
+                    flag: viewModel.statusPassword.1
+                )
                 Button(action: {
-                    let currentUser = user.first{$0.email == emailText}
-                    
-                    if currentUser == nil {
-                        titleOfEmail = "EMAIL ERROR"
-                        alertOfEmail = true
-                        return
+                    if viewModel.checkUser(context: viewContext) {
+                        userSettings.signIn(email: viewModel.email)
                     }
-                    if currentUser?.password != passwordText {
-                        titleOfPassword = "WRONG PASSWORD"
-                        alertOfPassword = true
-                        return
-                    }
-                    showAlert = true
-                    alertTitle = "Success"
-                    alertMessage = "You have successfully logged in!"
-                    
-                    titleOfEmail = "EMAIL"
-                    alertOfEmail = false
-                    titleOfPassword = "PASSWORD"
-                    alertOfPassword = false
-                    UserDefaults.standard.set(true, forKey: "userLoggedIn")
-                    UserDefaults.standard.set(currentUser?.email, forKey: "userLogin")
-                    userSettings.userLogin = currentUser?.email
-                    userSettings.userLoggedIn = true
                 }, label: {
                     Text("Log In")
                         .font(.custom("Roboto-Medium", size: 16))
                         .foregroundColor(.white)
                 })
+                .disabled(!self.viewModel.isValid)
                 .frame(width: UIScreen.main.bounds.width / 2, height: 40)
                 .background(
                     RoundedRectangle(cornerRadius: 5.5)
-                        .foregroundColor(.blue)
+                        .foregroundColor(!self.viewModel.isValid ? .gray : .blue)
                 )
                 Spacer()
             }
@@ -77,13 +139,6 @@ struct LogInView: View {
                 Text("Register")
                     .font(.custom("Roboto-Medium", size: 15))
                     .foregroundColor(.blue)
-            }
-            .alert(isPresented: $showAlert) {
-                Alert(
-                    title: Text("Important message"),
-                    message: Text("Wear sunscreen"),
-                    dismissButton: .default(Text("Ok!"))
-                )
             }
         }
     }

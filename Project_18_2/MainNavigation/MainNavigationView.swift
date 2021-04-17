@@ -25,11 +25,11 @@ struct MainNavigationView: View {
             Spacer()
             NavigationViewTabBar(tabBarViewModel: tabBarView)
             Rectangle()
-                .foregroundColor(Color("DBlue"))
                 .frame(width: UIScreen.main.bounds.width, height: 5)
+                .foregroundColor(Color("DBlue"))
         }
+        .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
         .navigationBarHidden(true)
-        .ignoresSafeArea(.all)
     }
 }
 
