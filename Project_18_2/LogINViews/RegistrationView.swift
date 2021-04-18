@@ -165,10 +165,11 @@ struct RegistrationView: View {
                         .font(.custom("Roboto-Medium", size: 16))
                         .foregroundColor(.white)
                 })
+                .disabled(!self.viewModel.isValid)
                 .frame(width: UIScreen.main.bounds.width / 2, height: 40)
                 .background(
                     RoundedRectangle(cornerRadius: 5.5)
-                        .foregroundColor(.blue)
+                        .foregroundColor(!self.viewModel.isValid ? .gray : .blue)
                 )
             }
         }
