@@ -6,28 +6,118 @@
 //
 
 import SwiftUI
+import Combine
+import CoreData
+
+class RegistrationViewModel: ObservableObject {
+    @Published public var email: String = ""
+    @Published public var password: String = ""
+    @Published public var firstName: String = ""
+    @Published public var lastName: String = ""
+    
+    @Published private(set) var statusEmail: (placeholder: String, isWrong: Bool) = ("EMAIL", false)
+    @Published private(set) var isValid: Bool = false
+    
+    private var cancellableSet: Set<AnyCancellable> = []
+    
+    private var isEmailEmptyPublisher: AnyPublisher<Bool, Never> {
+        $email
+            .debounce(for: 0.1, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map { email in
+                return email == ""
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private var isPasswordEmptyPublisher: AnyPublisher<Bool, Never> {
+        $password
+            .debounce(for: 0.1, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map { password in
+                return password == ""
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private var isFirstNameEmptyPublisher: AnyPublisher<Bool, Never> {
+        $firstName
+            .debounce(for: 0.1, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map { firstName in
+                return firstName == ""
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private var isLastNameEmptyPublisher: AnyPublisher<Bool, Never> {
+        $lastName
+            .debounce(for: 0.1, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map { lastName in
+                return lastName == ""
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private var allAreEmpty: AnyPublisher<Bool, Never> {
+        Publishers.CombineLatest4(isEmailEmptyPublisher, isPasswordEmptyPublisher, isFirstNameEmptyPublisher, isLastNameEmptyPublisher)
+            .map { emailFlag, passwordFlag, firstName, lastName in
+                return !emailFlag && !passwordFlag && !firstName && !lastName
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private var isChangedEmail: AnyPublisher<(placeholder: String, isWrong: Bool), Never> {
+        $email
+            .debounce(for: 0.1, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map { _ in
+                return ("EMAIL", false)
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    init() {
+        isChangedEmail
+            .receive(on: RunLoop.main)
+            .assign(to: \.statusEmail, on: self)
+            .store(in: &cancellableSet)
+        allAreEmpty
+            .receive(on: RunLoop.main)
+            .assign(to: \.isValid, on: self)
+            .store(in: &cancellableSet)
+    }
+    
+    func registerNewUser(context: NSManagedObjectContext)-> Bool {
+        guard let request = try? context.fetch(UserModels.getUserByEmail(email: self.email)) else {
+            return false
+        }
+        if !request.isEmpty {
+            statusEmail.placeholder = "Email already exist"
+            statusEmail.isWrong = true
+            return false
+        }
+        let newUser = UserModels(context: context)
+        newUser.email = self.email
+        newUser.password = self.password
+        newUser.firstName = self.firstName
+        newUser.lastName = self.lastName
+        do {
+            try context.save()
+        } catch {
+            print(error)
+        }
+        return true
+    }
+}
 
 struct RegistrationView: View {
     @EnvironmentObject var userSettings: UserDefaultsSettings
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(fetchRequest: UserModels.getAllUsers()) var user: FetchedResults<UserModels>
     @Environment(\.presentationMode) var presentationMode
     
-    @State var emailText: String = ""
-    @State var password: String = ""
-    @State var firstName: String = ""
-    @State var lastName: String = ""
-    
-    @State var titleEmail = "EMAIL"
-    @State var titlePassword = "PASSWORD"
-    @State var titleFirstName = "First Name"
-    @State var titleLastName = "Last Name"
-    @State var flagEmail = false
-    
-    
-    @State var showAlert = false
-    @State var alertTitle = ""
-    @State var alertMessage = ""
+    @StateObject var viewModel: RegistrationViewModel = .init()
     
     
     var body: some View {
@@ -37,65 +127,39 @@ struct RegistrationView: View {
             Spacer()
             ScrollView {
                 TextFieldForLogin(
-                    text: $emailText,
-                    titleName: titleEmail,
+                    text: $viewModel.email,
+                    titleName: viewModel.statusEmail.placeholder,
                     imageName: "Mail",
                     placeHolderName: "Email",
-                    flag: flagEmail
+                    flag: viewModel.statusEmail.isWrong
                 )
                 TextFieldWithSecurity(
-                    text: $password,
+                    text: $viewModel.password,
                     imageName: "Key",
-                    titleName: titlePassword,
+                    titleName: "PASSWORD",
                     placeholder: "Password",
                     flag: false
                 )
                 TextFieldForLogin(
-                    text: $firstName,
-                    titleName: titleFirstName,
+                    text: $viewModel.firstName,
+                    titleName: "First Name",
                     imageName: "Person",
                     placeHolderName: "",
                     flag: false
                 )
                 TextFieldForLogin(
-                    text: $lastName,
-                    titleName: titleLastName,
+                    text: $viewModel.lastName,
+                    titleName: "Last Name",
                     imageName: "Person",
                     placeHolderName: "",
                     flag: false
                 )
                 
                 Button(action: {
-                    if (emailText.isEmpty || password.isEmpty || firstName.isEmpty || lastName.isEmpty) {
-                        showAlert.toggle()
-                        alertTitle = "Fields"
-                        alertMessage = "Fields must'n be empty"
-                        return
+                    if viewModel.registerNewUser(context: viewContext) {
+                        userSettings.signIn(email: viewModel.email)
+                        self.presentationMode.wrappedValue.dismiss()
                     }
-                    let findUser = user.first{$0.email == emailText}
-                    if findUser != nil {
-                        titleEmail = "Email already exist"
-                        flagEmail = true
-                        return
-                    }
-                    let newUser = UserModels(context: self.viewContext)
-                    newUser.email = emailText
-                    newUser.password = password
-                    newUser.firstName = firstName
-                    newUser.lastName = lastName
-                    do {
-                        try self.viewContext.save()
-                    } catch {
-                        print(error)
-                    }
-                    alertTitle = "Ready!"
-                    alertMessage = "You have registered"
-                    showAlert = true
-                    UserDefaults.standard.set(true, forKey: "userLoggedIn")
-                    UserDefaults.standard.set(newUser.email, forKey: "userLogin")
-                    userSettings.userLogin = newUser.email
-                    userSettings.userLoggedIn = true
-                    self.presentationMode.wrappedValue.dismiss()
                 }, label: {
                     Text("Register")
                         .font(.custom("Roboto-Medium", size: 16))
@@ -107,13 +171,6 @@ struct RegistrationView: View {
                         .foregroundColor(.blue)
                 )
             }
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text(alertTitle),
-                message: Text(alertMessage),
-                dismissButton: .default(Text("Ok!"))
-            )
         }
         .navigationBarHidden(true)
     }

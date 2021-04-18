@@ -11,12 +11,12 @@ import CoreData
 
 
 class LogInViewModel: ObservableObject {
-    @Published var email = ""
-    @Published var password = ""
+    @Published public var email = ""
+    @Published public var password = ""
     
-    @Published public var statusEmail: (String, Bool) = ("EMAIL", false)
-    @Published public var statusPassword: (String, Bool) = ("PASSWORD", false)
-    @Published public var isValid: Bool = false
+    @Published private(set) var statusEmail: (placeholder: String, isWrong: Bool) = ("EMAIL", false)
+    @Published private(set) var statusPassword: (placeholder: String, isWrong: Bool) = ("PASSWORD", false)
+    @Published private(set) var isValid: Bool = false
     
     private var cancellableSet: Set<AnyCancellable> = []
     
@@ -40,6 +40,27 @@ class LogInViewModel: ObservableObject {
             .eraseToAnyPublisher()
     }
     
+    private var isChangedEmail: AnyPublisher<(placeholder: String, isWrong: Bool), Never> {
+        $email
+            .debounce(for: 0.1, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map { _ in
+                return ("EMAIL", false)
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private var isChangedPassword: AnyPublisher<(placeholder: String, isWrong: Bool), Never> {
+        $password
+            .debounce(for: 0.1, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map { _ in
+                return ("PASSWORD", false)
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    
     private var sameAreEmpty: AnyPublisher<Bool, Never> {
         Publishers.CombineLatest(isEmailEmptyPublisher, isPasswordEmptyPublisher)
             .map { emailFlag, passwordFlag in
@@ -53,22 +74,30 @@ class LogInViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .assign(to: \.isValid, on: self)
             .store(in: &cancellableSet)
+        isChangedEmail
+            .receive(on: RunLoop.main)
+            .assign(to: \.statusEmail, on: self)
+            .store(in: &cancellableSet)
+        isChangedPassword
+            .receive(on: RunLoop.main)
+            .assign(to: \.statusPassword, on: self)
+            .store(in: &cancellableSet)
     }
     
     func checkUser(context:  NSManagedObjectContext)-> Bool {
-        let request = try! context.fetch(UserModels.getAllUsers())
-        let res = request.first{$0.email == self.email}
-        if res == nil {
-            statusEmail.0 = "EMAIL ERROR"
-            statusEmail.1 = true
+        guard let request = try? context.fetch(UserModels.getUserByEmail(email: self.email)) else {
             return false
         }
-        if res?.password != self.password {
-            statusPassword.0 = "WRONG PASSWORD"
-            statusPassword.1 = true
+        if request.isEmpty {
+            statusEmail.placeholder = "EMAIL ERROR"
+            statusEmail.isWrong = true
             return false
         }
-        
+        if request[0].password != self.password {
+            statusPassword.placeholder = "WRONG PASSWORD"
+            statusPassword.isWrong = true
+            return false
+        }
         return true
     }
     
@@ -77,20 +106,6 @@ class LogInViewModel: ObservableObject {
 struct LogInView: View {
     @EnvironmentObject var userSettings: UserDefaultsSettings
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(fetchRequest: UserModels.getAllUsers()) var user: FetchedResults<UserModels>
-    
-    @State private var emailText = ""
-    @State private var passwordText = ""
-    
-    @State private var alertOfEmail = false
-    @State private var alertOfPassword = false
-    @State private var titleOfEmail = "EMAIL"
-    @State private var titleOfPassword = "PASSWORD"
-    
-    @State private var showAlert = false
-    @State private var alertTitle = ""
-    @State private var alertMessage = ""
-    
     
     @StateObject var viewModel: LogInViewModel = .init()
     
@@ -103,17 +118,17 @@ struct LogInView: View {
             ScrollView {
                 TextFieldForLogin(
                     text: $viewModel.email,
-                    titleName: viewModel.statusEmail.0,
+                    titleName: viewModel.statusEmail.placeholder,
                     imageName: "Mail",
                     placeHolderName: "EMAIL",
-                    flag: viewModel.statusEmail.1
+                    flag: viewModel.statusEmail.isWrong
                 )
                 TextFieldWithSecurity(
                     text: $viewModel.password,
                     imageName: "Key",
-                    titleName: viewModel.statusPassword.0,
+                    titleName: viewModel.statusPassword.placeholder,
                     placeholder: "Password",
-                    flag: viewModel.statusPassword.1
+                    flag: viewModel.statusPassword.isWrong
                 )
                 Button(action: {
                     if viewModel.checkUser(context: viewContext) {
