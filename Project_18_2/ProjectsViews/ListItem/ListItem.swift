@@ -8,13 +8,77 @@
 import SwiftUI
 
 struct ListItem: View {
+    
+    var title: String = "Design iOS APP"
+    var price: String = "180.000$"
+    
+    var photo = UIImage(named: "Me")!
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        RoundedRectangle(cornerRadius: 10)
+            .foregroundColor(.white)
+            .frame(height: 140)
+            .overlay(
+                VStack {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text(title)
+                                .font(.custom("Roboto-Bold", size: 18))
+                            Text(price)
+                                .font(.custom("Roboto-Light", size: 15))
+                        }
+                        Spacer()
+                        Image(uiImage: photo)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 35, height: 35)
+                            .cornerRadius(5.0)
+                            .clipped()
+                    }
+                    .padding()
+                    Divider()
+                        .foregroundColor(.black)
+                    HStack {
+                        Button(action: {}, label: {
+                            Image("Star")
+                                .foregroundColor(.blue)
+                        })
+                        .frame(width: 30, height: 30)
+                        Button(action: {}, label: {
+                            Image("Share")
+                                .foregroundColor(.blue)
+                        })
+                        .frame(width: 30, height: 30)
+                        Spacer()
+                        
+                        Button(action: {}, label: {
+                            Image("Done")
+                                .foregroundColor(.blue)
+                        })
+                        .frame(width: 30, height: 30)
+                        Button(action: {}, label: {
+                            Image("Pencil")
+                                .foregroundColor(.blue)
+                        })
+                        .frame(width: 30, height: 30)
+                        Button(action: {}, label: {
+                            Image("Trash")
+                                .foregroundColor(Color("RedError"))
+                        })
+                        .frame(width: 30, height: 30)
+                    }
+                    .padding(.horizontal, 10)
+                    .frame(height: 40)
+                }
+                .padding(.horizontal, 10)
+            )
+        
     }
 }
 
 struct ListItem_Previews: PreviewProvider {
     static var previews: some View {
         ListItem()
+            .background(Color.gray.opacity(0.25))
     }
 }

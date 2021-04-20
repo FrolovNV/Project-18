@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Projects" representedClassName=".Team" syncable="YES">
+    <entity name="Team" representedClassName=".Team" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="price" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
@@ -14,10 +14,10 @@
         <attribute name="lastName" optional="YES" attributeType="String"/>
         <attribute name="mobile" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
-        <relationship name="teams" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Projects" inverseName="persons" inverseEntity="Projects"/>
+        <relationship name="teams" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="persons" inverseEntity="Team"/>
     </entity>
     <elements>
-        <element name="Projects" positionX="283.5038452148438" positionY="10.61639404296875" width="128" height="88"/>
+        <element name="Team" positionX="283.5038452148438" positionY="10.61639404296875" width="128" height="88"/>
         <element name="UserModels" positionX="-54" positionY="-9" width="128" height="148"/>
     </elements>
 </model>

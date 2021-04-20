@@ -29,12 +29,6 @@ extension UserModels {
         return req
     }
     
-//    static func getUserByEmail(email: String)-> NSFetchRequest<UserModels> {
-//        let fetch = NSFetchRequest<UserModels>(entityName: "UserModels")
-//        fetch.predicate = NSPredicate(format: "email == %@", email)
-//        return fetch
-//    }
-    
     static func getUserByEmail(email: String)-> NSFetchRequest<UserModels> {
         let request = self.getAllUsers()
         let pred = NSPredicate(format: "email CONTAINS %@", email as NSString)

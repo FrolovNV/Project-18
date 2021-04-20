@@ -15,6 +15,11 @@
 		057A4607261F5AE600C942A4 /* NavigationViewTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057A4606261F5AE600C942A4 /* NavigationViewTabBar.swift */; };
 		057A460A261F5D3500C942A4 /* IconForTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057A4609261F5D3500C942A4 /* IconForTabBar.swift */; };
 		057A4611261F798A00C942A4 /* PairOfIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057A4610261F798A00C942A4 /* PairOfIcon.swift */; };
+		05935A3E262EFE620039E76B /* ProjectModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05935A3D262EFE620039E76B /* ProjectModels.swift */; };
+		05935A4D262F064A0039E76B /* HeaderProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05935A4C262F064A0039E76B /* HeaderProjectView.swift */; };
+		05935A50262F0DC00039E76B /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05935A4F262F0DC00039E76B /* FilterView.swift */; };
+		05935A61262F4F3E0039E76B /* AddProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05935A60262F4F3E0039E76B /* AddProjectView.swift */; };
+		05935A65262F54C90039E76B /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05935A64262F54C90039E76B /* TabBarViewModel.swift */; };
 		05971BEA261CC20A002CA8FB /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 05971BE8261CC20A002CA8FB /* CoreDataModel.xcdatamodeld */; };
 		05971BEE261CC2C9002CA8FB /* UserModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05971BED261CC2C9002CA8FB /* UserModels.swift */; };
 		05971BF8261CC684002CA8FB /* HeaderLogIN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05971BF2261CC684002CA8FB /* HeaderLogIN.swift */; };
@@ -59,6 +64,12 @@
 		057A4606261F5AE600C942A4 /* NavigationViewTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewTabBar.swift; sourceTree = "<group>"; };
 		057A4609261F5D3500C942A4 /* IconForTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconForTabBar.swift; sourceTree = "<group>"; };
 		057A4610261F798A00C942A4 /* PairOfIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairOfIcon.swift; sourceTree = "<group>"; };
+		05935A3D262EFE620039E76B /* ProjectModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectModels.swift; sourceTree = "<group>"; };
+		05935A40262F05780039E76B /* CoreDataModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CoreDataModel 2.xcdatamodel"; sourceTree = "<group>"; };
+		05935A4C262F064A0039E76B /* HeaderProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderProjectView.swift; sourceTree = "<group>"; };
+		05935A4F262F0DC00039E76B /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		05935A60262F4F3E0039E76B /* AddProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectView.swift; sourceTree = "<group>"; };
+		05935A64262F54C90039E76B /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
 		05971BE9261CC20A002CA8FB /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		05971BED261CC2C9002CA8FB /* UserModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModels.swift; sourceTree = "<group>"; };
 		05971BF2261CC684002CA8FB /* HeaderLogIN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderLogIN.swift; sourceTree = "<group>"; };
@@ -160,11 +171,29 @@
 			path = NavigationTabBar;
 			sourceTree = "<group>";
 		};
+		05935A52262F3E6E0039E76B /* HeaderAndFilter */ = {
+			isa = PBXGroup;
+			children = (
+				05935A4C262F064A0039E76B /* HeaderProjectView.swift */,
+				05935A4F262F0DC00039E76B /* FilterView.swift */,
+			);
+			path = HeaderAndFilter;
+			sourceTree = "<group>";
+		};
+		05935A5D262F4F110039E76B /* NewProjectViews */ = {
+			isa = PBXGroup;
+			children = (
+				05935A60262F4F3E0039E76B /* AddProjectView.swift */,
+			);
+			path = NewProjectViews;
+			sourceTree = "<group>";
+		};
 		05971BEC261CC2B7002CA8FB /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				05971BED261CC2C9002CA8FB /* UserModels.swift */,
 				05B482F526233CBC0097DD99 /* UserDefaultsSettings.swift */,
+				05935A3D262EFE620039E76B /* ProjectModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -229,7 +258,9 @@
 		05B482E5262336B00097DD99 /* ProjectsViews */ = {
 			isa = PBXGroup;
 			children = (
+				05935A5D262F4F110039E76B /* NewProjectViews */,
 				05B482E6262336CC0097DD99 /* ListItem */,
+				05935A52262F3E6E0039E76B /* HeaderAndFilter */,
 			);
 			path = ProjectsViews;
 			sourceTree = "<group>";
@@ -258,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				05B482F026233AEF0097DD99 /* MainNavigationView.swift */,
+				05935A64262F54C90039E76B /* TabBarViewModel.swift */,
 			);
 			path = MainNavigation;
 			sourceTree = "<group>";
@@ -356,10 +388,13 @@
 				0533DCC2261CBFE400FA0AA6 /* Persistence.swift in Sources */,
 				05971BF9261CC684002CA8FB /* LogInView.swift in Sources */,
 				05B482FF262346400097DD99 /* ChangeSettings.swift in Sources */,
+				05935A50262F0DC00039E76B /* FilterView.swift in Sources */,
 				05971BFD261CC684002CA8FB /* NavigationLogIn.swift in Sources */,
 				057A4607261F5AE600C942A4 /* NavigationViewTabBar.swift in Sources */,
 				05B482F9262340760097DD99 /* SettingsView.swift in Sources */,
 				057A4611261F798A00C942A4 /* PairOfIcon.swift in Sources */,
+				05935A3E262EFE620039E76B /* ProjectModels.swift in Sources */,
+				05935A61262F4F3E0039E76B /* AddProjectView.swift in Sources */,
 				05971BFC261CC684002CA8FB /* TextFieldWithSecurity.swift in Sources */,
 				05971BEE261CC2C9002CA8FB /* UserModels.swift in Sources */,
 				0533DCBB261CBFE400FA0AA6 /* ContentView.swift in Sources */,
@@ -367,7 +402,9 @@
 				05971BF8261CC684002CA8FB /* HeaderLogIN.swift in Sources */,
 				05C8C7CE26288471004782C5 /* ImagePicker.swift in Sources */,
 				05B482EC262337220097DD99 /* ListItemBackground.swift in Sources */,
+				05935A65262F54C90039E76B /* TabBarViewModel.swift in Sources */,
 				05CF8F292628C3CA00BE6A17 /* TestSwiftUI.swift in Sources */,
+				05935A4D262F064A0039E76B /* HeaderProjectView.swift in Sources */,
 				05B482F126233AEF0097DD99 /* MainNavigationView.swift in Sources */,
 				05B482F626233CBC0097DD99 /* UserDefaultsSettings.swift in Sources */,
 				05B482E8262336DA0097DD99 /* ListItem.swift in Sources */,
@@ -569,6 +606,7 @@
 		05971BE8261CC20A002CA8FB /* CoreDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				05935A40262F05780039E76B /* CoreDataModel 2.xcdatamodel */,
 				05971BE9261CC20A002CA8FB /* CoreDataModel.xcdatamodel */,
 			);
 			currentVersion = 05971BE9261CC20A002CA8FB /* CoreDataModel.xcdatamodel */;
