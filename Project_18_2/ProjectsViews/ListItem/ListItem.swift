@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ListItem: View {
-    
+    @Environment(\.managedObjectContext) private var viewContext
     var project: Project
     
     var title: String = "Design iOS APP"
@@ -41,7 +41,9 @@ struct ListItem: View {
                     Divider()
                         .foregroundColor(.black)
                     HStack {
-                        Button(action: {}, label: {
+                        Button(action: {
+                            Project.changeFavoriteStatus(context: viewContext, project: project)
+                        }, label: {
                             Image("Star")
                                 .foregroundColor(.blue)
                         })
@@ -53,7 +55,9 @@ struct ListItem: View {
                         .frame(width: 30, height: 30)
                         Spacer()
                         
-                        Button(action: {}, label: {
+                        Button(action: {
+                            Project.projectDone(context: viewContext, project: project)
+                        }, label: {
                             Image("Done")
                                 .foregroundColor(.blue)
                         })
@@ -63,7 +67,9 @@ struct ListItem: View {
                                 .foregroundColor(.blue)
                         })
                         .frame(width: 30, height: 30)
-                        Button(action: {}, label: {
+                        Button(action: {
+                            Project.deleteThisProject(context: viewContext, project: project)
+                        }, label: {
                             Image("Trash")
                                 .foregroundColor(Color("RedError"))
                         })
@@ -74,7 +80,8 @@ struct ListItem: View {
                 }
                 .padding(.horizontal, 10)
             )
-        
+            .transition(.slide)
+            .animation(.default)
     }
 }
 

@@ -37,6 +37,8 @@ struct AddProjectView: View {
                                 Spacer()
                                 Button(action: {
                                     Project.addNewProject(context: viewContext, title: title, price: "0.00$")
+                                    title = ""
+                                    tabBarView.showSheet.toggle()
                                 }, label: {
                                     Text("Create")
                                         .foregroundColor(.blue)
@@ -59,8 +61,9 @@ struct AddProjectView: View {
                         }
                 )
             }
-            .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)))
+            .transition(.move(edge: .bottom))
             .animation(.default)
+            .ignoresSafeArea(.container, edges: [.top, .horizontal, .bottom])
         }
     }
 }

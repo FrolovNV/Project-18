@@ -31,12 +31,16 @@ struct MainNavigationView: View {
                         Text("Not ready")
                     }
                 }
+                .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
                 Spacer()
                 NavigationViewTabBar(tabBarViewModel: tabBarView)
+                    .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
                 Rectangle()
                     .frame(width: UIScreen.main.bounds.width, height: 5)
                     .foregroundColor(Color("DBlue"))
+                    .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
             }
+            .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
             
             Color.black.opacity(tabBarView.showSheet || projectHeaderViewModel.showSheetOfFilter ? 0.3 : 0)
                 .onTapGesture {
@@ -51,14 +55,15 @@ struct MainNavigationView: View {
                         }
                     }
                 }
+                .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
             
             
             FilterView(headerViewModel: self.projectHeaderViewModel)
+                .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
             AddProjectView()
         }
         .environmentObject(userSettings)
         .environmentObject(tabBarView)
-        .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
         .navigationBarHidden(true)
     }
 }

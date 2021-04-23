@@ -13,7 +13,9 @@ struct ListItemBackground: View {
     @EnvironmentObject var tabBarViewModel: TabBarViewModel
     @Environment(\.managedObjectContext) private var viewContext
     
-    @FetchRequest(fetchRequest: Project.getAllUsersProjects()) var projects
+    @FetchRequest(fetchRequest: Project.getAllUsersProjects()) var fetchProjects
+    
+//    @State var project: [Project]
     
     @ObservedObject var headerViewModel: ProjectHeaderViewModel
     
@@ -23,10 +25,9 @@ struct ListItemBackground: View {
                 HeaderProjectView(viewModel: headerViewModel)
                     .offset(y: 10)
                     .frame(height: 100)
-                Text("\(projects.count)")
                 ScrollView {
                     VStack(spacing: 0) {
-                        ForEach(projects) { project in
+                        ForEach(fetchProjects) { project in
                             ListItem(project: project)
                                 .padding()
                         }
@@ -36,8 +37,14 @@ struct ListItemBackground: View {
         }
         .onAppear {
             self.tabBarViewModel.navigationPosition = .createProject
-            
         }
+        .onReceive(self.headerViewModel.$selectedFilterMode, perform: { _ in
+            if headerViewModel.selectedFilterMode == 0 {
+                self.fetchProjects.sorted{$0.title! < $1.title!}
+            } else if headerViewModel.selectedFilterMode == 1 {
+        
+            }
+        })
         .background(Color.gray.opacity(0.15))
         .ignoresSafeArea(.all)
     }

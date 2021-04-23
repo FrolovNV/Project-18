@@ -7,11 +7,15 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 public class Project: NSManagedObject, Identifiable {
     @NSManaged public var id: UUID?
     @NSManaged public var price: String?
     @NSManaged public var title: String?
+    @NSManaged public var creatingDate: Date
+    @NSManaged public var complitionDate: Date
+    @NSManaged public var favorite: Bool
     @NSManaged public var persons: NSSet?
 }
 
@@ -73,9 +77,27 @@ extension Project {
         guard let logedUser = userRes?[0] else {return}
         
         let newProject = Project(context: context)
+        newProject.id = UUID()
         newProject.title = title
         newProject.price = price
+        newProject.creatingDate = Date()
+        newProject.favorite = false
         newProject.addToPersons(logedUser)
+        try! context.save()
+    }
+    
+    static func changeFavoriteStatus(context: NSManagedObjectContext, project: Project) {
+        project.favorite.toggle()
+        try! context.save()
+    }
+    
+    static func projectDone(context: NSManagedObjectContext, project: Project) {
+        project.complitionDate = Date()
+        try! context.save()
+    }
+    
+    static func deleteThisProject(context: NSManagedObjectContext, project: Project) {
+        context.delete(project)
         try! context.save()
     }
 }
