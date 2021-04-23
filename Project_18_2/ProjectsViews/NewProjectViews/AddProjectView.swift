@@ -8,57 +8,64 @@
 import SwiftUI
 
 struct AddProjectView: View {
-    
-    @Binding var show: Bool
+    @EnvironmentObject var tabBarView: TabBarViewModel
     @State var title: String = ""
     
     var body: some View {
-        RoundedRectangle(cornerRadius: 15.0)
-            .foregroundColor(.white)
-            .frame(height: 300)
-            .overlay(
-                VStack {
-                    HStack {
-                        Button(action: {
-                            show.toggle()
-                        }, label: {
-                            Text("Cancel")
-                                .foregroundColor(.red)
-                        })
-                        Spacer()
-                        Text("New Project")
-                            .font(.custom("Roboto-Medium", size: 20))
-                        
-                        Spacer()
-                        Button(action: {
+        if (tabBarView.showSheet) && (tabBarView.navigationPosition == .createProject){
+            VStack {
+                Spacer()
+                RoundedRectangle(cornerRadius: 15.0)
+                    .foregroundColor(.white)
+                    .frame(height: 300)
+                    .overlay(
+                        VStack {
+                            HStack {
+                                Button(action: {
+                                    withAnimation(.easeInOut(duration: 0.1)){
+                                        tabBarView.showSheet.toggle()
+                                    }
+                                }, label: {
+                                    Text("Cancel")
+                                        .foregroundColor(.red)
+                                })
+                                Spacer()
+                                Text("New Project")
+                                    .font(.custom("Roboto-Medium", size: 20))
+                                
+                                Spacer()
+                                Button(action: {
+                                    
+                                }, label: {
+                                    Text("Create")
+                                        .foregroundColor(.blue)
+                                })
+                            }
+                            .padding()
                             
-                        }, label: {
-                            Text("Create")
-                                .foregroundColor(.blue)
-                        })
-                    }
-                    .padding()
-                    
-                    VStack(alignment: .leading) {
-                        Text("Project Name")
-                            .font(.custom("Roboto-Light", size: 18))
-                            .foregroundColor(.gray)
-                        TextField(title, text: $title)
-                            .font(.custom("Roboto-Medium", size: 20))
-                            .foregroundColor(.black)
-                        Divider()
-                    }
-                    .frame(width: UIScreen.main.bounds.width * 0.8)
-                    .padding()
-                    Spacer()
-                }
-                
-            )
+                            VStack(alignment: .leading) {
+                                Text("Project Name")
+                                    .font(.custom("Roboto-Light", size: 18))
+                                    .foregroundColor(.gray)
+                                TextField(title, text: $title)
+                                    .font(.custom("Roboto-Medium", size: 20))
+                                    .foregroundColor(.black)
+                                Divider()
+                            }
+                            .frame(width: UIScreen.main.bounds.width * 0.8)
+                            .padding()
+                            Spacer()
+                        }
+                )
+            }
+            .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)))
+            .animation(.default)
+        }
     }
 }
 
 struct AddProjectView_Previews: PreviewProvider {
     static var previews: some View {
-        AddProjectView(show: .constant(true))
+        AddProjectView()
     }
 }

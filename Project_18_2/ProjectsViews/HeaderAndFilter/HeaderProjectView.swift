@@ -10,7 +10,7 @@ import SwiftUI
 
 
 struct HeaderProjectView: View {
-    @ObservedObject var viewModel: HeaderViewModel
+    @ObservedObject var viewModel: ProjectHeaderViewModel
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -66,6 +66,6 @@ struct HeaderProjectView: View {
 
 struct HeaderProjectView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderProjectView(viewModel: HeaderViewModel())
+        HeaderProjectView(viewModel: ProjectHeaderViewModel())
     }
 }

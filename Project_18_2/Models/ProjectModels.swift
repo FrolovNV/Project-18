@@ -17,7 +17,6 @@ public class Project: NSManagedObject, Identifiable {
 
 //MARK:- Add User to Project
 extension Project {
-
     @objc(addPersonsObject:)
     @NSManaged public func addToPersons(_ value: UserModels)
 
@@ -34,7 +33,6 @@ extension Project {
 
 //MARK:- Methods of project
 extension Project {
-    
     static func getAllProject()-> NSFetchRequest<Project> {
         let req = Project.fetchRequest() as! NSFetchRequest<Project>
         let sort = NSSortDescriptor(key: "title", ascending: true)
@@ -43,6 +41,14 @@ extension Project {
     }
     
     static func getProjectByEmail(email: String)-> NSFetchRequest<Project> {
+        let request = self.getAllProject()
+        let pred = NSPredicate(format: "persons.email CONTAINS %@", email as NSString)
+        request.predicate = pred
+        return request
+    }
+    
+    static func getAllUsersProjects()-> NSFetchRequest<Project> {
+        let email = UserDefaults.standard.string(forKey: "userLogin")!
         let request = self.getAllProject()
         let pred = NSPredicate(format: "persons.email CONTAINS %@", email as NSString)
         request.predicate = pred

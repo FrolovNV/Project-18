@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0507794C2632B3ED00CC884F /* ProjectHeaderViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0507794B2632B3ED00CC884F /* ProjectHeaderViewModels.swift */; };
 		0533DCB9261CBFE400FA0AA6 /* Project_18_2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0533DCB8261CBFE400FA0AA6 /* Project_18_2App.swift */; };
 		0533DCBB261CBFE400FA0AA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0533DCBA261CBFE400FA0AA6 /* ContentView.swift */; };
 		0533DCBD261CBFE400FA0AA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0533DCBC261CBFE400FA0AA6 /* Assets.xcassets */; };
@@ -54,6 +55,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0507794B2632B3ED00CC884F /* ProjectHeaderViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectHeaderViewModels.swift; sourceTree = "<group>"; };
 		0533DCB5261CBFE400FA0AA6 /* Project_18_2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project_18_2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0533DCB8261CBFE400FA0AA6 /* Project_18_2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_18_2App.swift; sourceTree = "<group>"; };
 		0533DCBA261CBFE400FA0AA6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -114,6 +116,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0507794A2632B3D700CC884F /* HeaderViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0507794B2632B3ED00CC884F /* ProjectHeaderViewModels.swift */,
+			);
+			path = HeaderViewModels;
+			sourceTree = "<group>";
+		};
 		0533DCAC261CBFE400FA0AA6 = {
 			isa = PBXGroup;
 			children = (
@@ -288,6 +298,7 @@
 		05B482EF26233AD40097DD99 /* MainNavigation */ = {
 			isa = PBXGroup;
 			children = (
+				0507794A2632B3D700CC884F /* HeaderViewModels */,
 				05B482F026233AEF0097DD99 /* MainNavigationView.swift */,
 				05935A64262F54C90039E76B /* TabBarViewModel.swift */,
 			);
@@ -407,6 +418,7 @@
 				05935A4D262F064A0039E76B /* HeaderProjectView.swift in Sources */,
 				05B482F126233AEF0097DD99 /* MainNavigationView.swift in Sources */,
 				05B482F626233CBC0097DD99 /* UserDefaultsSettings.swift in Sources */,
+				0507794C2632B3ED00CC884F /* ProjectHeaderViewModels.swift in Sources */,
 				05B482E8262336DA0097DD99 /* ListItem.swift in Sources */,
 				0533DCB9261CBFE400FA0AA6 /* Project_18_2App.swift in Sources */,
 				05971BFA261CC684002CA8FB /* RegistrationView.swift in Sources */,

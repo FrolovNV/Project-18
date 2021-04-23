@@ -11,9 +11,9 @@ import Combine
 
 
 enum NavigationLinkViews {
-    case projectMain
-    case projectTasks
-    case projectTaskDetails
+    case createProject
+    case createTask
+    case doneTask
     case settingsMain
 }
 
@@ -21,6 +21,7 @@ class TabBarViewModel: ObservableObject {
     @Published var selected: Int = 1
     @Published var selectedIntoView: Int = 1
     @Published var showSheet: Bool = false
+    @Published var navigationPosition: NavigationLinkViews = .createProject
     
     @Published var colorAndName: (Color, String) = (
         Color("Orange"),
@@ -43,35 +44,6 @@ class TabBarViewModel: ObservableObject {
             .debounce(for: 0.1, scheduler: RunLoop.main)
             .map { value in
                 return value
-            }
-            .eraseToAnyPublisher()
-    }
-    
-    private var selectedTogether: AnyPublisher<(Color, String, NavigationLinkViews), Never> {
-        Publishers.CombineLatest(intoView, intoTabBar)
-            .map { view, tabBar in
-                switch view {
-                    case 1:
-                        switch tabBar {
-                        case 1:
-                            return (Color("Orange"), "plus", .projectMain)
-                        case 2:
-                            return (Color("Orange"), "plus", .projectTasks)
-                        case 3:
-                            return (Color("LightGreen"), "checkmark", .projectTaskDetails)
-                        default:
-                            return (Color("Orange"), "plus", .projectMain)
-                        }
-//                    case 4:
-//                        switch tabBar {
-//                        case 1:
-//                            return 
-//                        default:
-//                            <#code#>
-//                        }
-                default:
-                    return (Color("Orange"), "plus", .projectMain)
-                }
             }
             .eraseToAnyPublisher()
     }

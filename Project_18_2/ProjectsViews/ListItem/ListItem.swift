@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ListItem: View {
     
+    var project: Project
+    
     var title: String = "Design iOS APP"
     var price: String = "180.000$"
     
@@ -22,9 +24,9 @@ struct ListItem: View {
                 VStack {
                     HStack {
                         VStack(alignment: .leading, spacing: 10) {
-                            Text(title)
+                            Text(project.title!)
                                 .font(.custom("Roboto-Bold", size: 18))
-                            Text(price)
+                            Text(project.price!)
                                 .font(.custom("Roboto-Light", size: 15))
                         }
                         Spacer()
@@ -76,9 +78,9 @@ struct ListItem: View {
     }
 }
 
-struct ListItem_Previews: PreviewProvider {
-    static var previews: some View {
-        ListItem()
-            .background(Color.gray.opacity(0.25))
-    }
-}
+//struct ListItem_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ListItem()
+//            .background(Color.gray.opacity(0.25))
+//    }
+//}
