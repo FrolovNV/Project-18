@@ -16,7 +16,7 @@ struct ContentView: View {
     
     var body: some View {
         if endSplash {
-            VStack {
+            NavigationView {
                 if userSetting.userLoggedIn {
                     MainNavigationView()
                         .navigationBarHidden(true)

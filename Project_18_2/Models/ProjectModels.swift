@@ -67,11 +67,15 @@ extension Project {
         
     }
     
-    static func addNewProject(context: NSManagedObjectContext, title: String, price: String, user: UserModels) {
+    static func addNewProject(context: NSManagedObjectContext, title: String, price: String) {
+        let userFetch = UserModels.getUserByEmail(email: UserDefaults.standard.string(forKey: "userLogin")!)
+        let userRes = try? context.fetch(userFetch)
+        guard let logedUser = userRes?[0] else {return}
+        
         let newProject = Project(context: context)
         newProject.title = title
         newProject.price = price
-        newProject.addToPersons(user)
+        newProject.addToPersons(logedUser)
         try! context.save()
     }
 }

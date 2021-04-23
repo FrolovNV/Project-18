@@ -23,10 +23,11 @@ struct ListItemBackground: View {
                 HeaderProjectView(viewModel: headerViewModel)
                     .offset(y: 10)
                     .frame(height: 100)
+                Text("\(projects.count)")
                 ScrollView {
                     VStack(spacing: 0) {
-                        ForEach(0..<10) { index in
-                            ListItem(project: projects[index])
+                        ForEach(projects) { project in
+                            ListItem(project: project)
                                 .padding()
                         }
                     }

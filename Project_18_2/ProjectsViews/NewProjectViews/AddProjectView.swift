@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddProjectView: View {
     @EnvironmentObject var tabBarView: TabBarViewModel
+    @Environment(\.managedObjectContext) private var viewContext
     @State var title: String = ""
     
     var body: some View {
@@ -35,7 +36,7 @@ struct AddProjectView: View {
                                 
                                 Spacer()
                                 Button(action: {
-                                    
+                                    Project.addNewProject(context: viewContext, title: title, price: "0.00$")
                                 }, label: {
                                     Text("Create")
                                         .foregroundColor(.blue)
