@@ -90,7 +90,7 @@ class RegistrationViewModel: ObservableObject {
     }
     
     func registerNewUser(context: NSManagedObjectContext)-> Bool {
-        guard let request = try? context.fetch(UserModels.getUserByEmail(email: self.email)) else {
+        guard let request = try? context.fetch(UserDatabase.shared.getUserByEmail(email: self.email)) else {
             return false
         }
         if !request.isEmpty {

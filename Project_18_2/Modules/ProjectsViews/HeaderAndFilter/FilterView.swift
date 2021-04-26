@@ -34,6 +34,9 @@ struct FilterView: View {
                                     VStack(alignment: .leading) {
                                         Button(action: {
                                             self.headerViewModel.selectedFilterMode = num
+                                            withAnimation {
+                                                self.headerViewModel.showSheetOfFilter.toggle()
+                                            }
                                         }, label: {
                                             Text(titles[num])
                                                 .font(.custom("Roboto-Bold", size: 20))

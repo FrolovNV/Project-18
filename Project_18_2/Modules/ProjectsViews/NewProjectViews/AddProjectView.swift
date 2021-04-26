@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddProjectView: View {
     @EnvironmentObject var tabBarView: TabBarViewModel
+    @EnvironmentObject var userSettings: UserDefaultsSettings
     @Environment(\.managedObjectContext) private var viewContext
     @State var title: String = ""
     
@@ -36,9 +37,9 @@ struct AddProjectView: View {
                                 
                                 Spacer()
                                 Button(action: {
-                                    Project.addNewProject(context: viewContext, title: title, price: "0.00$")
-                                    title = ""
                                     tabBarView.showSheet.toggle()
+                                    ProjectDatabase.shared.addNewProject(context: viewContext, user: userSettings.user!, title: title, price: "0.00$")
+                                    title = ""
                                 }, label: {
                                     Text("Create")
                                         .foregroundColor(.blue)

@@ -10,11 +10,16 @@ import SwiftUI
 struct ListItem: View {
     @Environment(\.managedObjectContext) private var viewContext
     var project: Project
+    @State var favorite: Bool
+    @State var complited: Bool
+    let photo = UIImage(named: "Me")!
     
-    var title: String = "Design iOS APP"
-    var price: String = "180.000$"
+    init(project: Project) {
+        self.project = project
+        self._favorite = State(initialValue: project.favorite)
+        self._complited = State(initialValue: project.complitionDate == nil ? false : true)
+    }
     
-    var photo = UIImage(named: "Me")!
     
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
@@ -24,8 +29,14 @@ struct ListItem: View {
                 VStack {
                     HStack {
                         VStack(alignment: .leading, spacing: 10) {
-                            Text(project.title!)
-                                .font(.custom("Roboto-Bold", size: 18))
+                            HStack {
+                                Text(project.title!)
+                                    .font(.custom("Roboto-Bold", size: 18))
+                                if self.complited {
+                                    Image("Done")
+                                        .foregroundColor(.green)
+                                }
+                            }
                             Text(project.price!)
                                 .font(.custom("Roboto-Light", size: 15))
                         }
@@ -42,10 +53,11 @@ struct ListItem: View {
                         .foregroundColor(.black)
                     HStack {
                         Button(action: {
-                            Project.changeFavoriteStatus(context: viewContext, project: project)
+                            favorite.toggle()
+                            ProjectDatabase.shared.changeFavoriteStatus(context: viewContext, project: project)
                         }, label: {
                             Image("Star")
-                                .foregroundColor(.blue)
+                                .foregroundColor(self.favorite ? .yellow : .blue)
                         })
                         .frame(width: 30, height: 30)
                         Button(action: {}, label: {
@@ -56,11 +68,13 @@ struct ListItem: View {
                         Spacer()
                         
                         Button(action: {
-                            Project.projectDone(context: viewContext, project: project)
+                            self.complited.toggle()
+                            ProjectDatabase.shared.projectDone(context: viewContext, project: project)
                         }, label: {
                             Image("Done")
-                                .foregroundColor(.blue)
+                                .foregroundColor(self.complited ? .gray : .blue)
                         })
+                        .disabled(self.complited)
                         .frame(width: 30, height: 30)
                         Button(action: {}, label: {
                             Image("Pencil")
@@ -68,7 +82,7 @@ struct ListItem: View {
                         })
                         .frame(width: 30, height: 30)
                         Button(action: {
-                            Project.deleteThisProject(context: viewContext, project: project)
+                            ProjectDatabase.shared.deleteThisProject(context: viewContext, project: project)
                         }, label: {
                             Image("Trash")
                                 .foregroundColor(Color("RedError"))

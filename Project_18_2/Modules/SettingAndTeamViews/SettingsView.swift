@@ -34,7 +34,7 @@ final class SettingsViewModel: ObservableObject {
     }
     
     func getUser(_ email: String, from context: NSManagedObjectContext) {
-        let res = try! context.fetch(UserModels.getUserByEmail(email: email))
+        let res = try! context.fetch(UserDatabase.shared.getUserByEmail(email: email))
         user = res[0]
     }
     

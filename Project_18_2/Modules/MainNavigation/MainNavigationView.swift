@@ -18,27 +18,14 @@ struct MainNavigationView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                NavigationView {
-                    switch tabBarView.selected {
-                    case 1:
-                        ListItemBackground(headerViewModel: self.projectHeaderViewModel)
-                            .navigationBarHidden(true)
-                    case 1...3:
-                        Text("Not ready")
-                    case 4:
-                        SettingsView(showSheet: $tabBarView.showSheet)
-                    default:
-                        Text("Not ready")
-                    }
-                }
-                .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
+                ContentOfMainNavigationView()
+                .environmentObject(tabBarView)
+                .environmentObject(projectHeaderViewModel)
                 Spacer()
                 NavigationViewTabBar(tabBarViewModel: tabBarView)
-                    .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
                 Rectangle()
                     .frame(width: UIScreen.main.bounds.width, height: 5)
                     .foregroundColor(Color("DBlue"))
-                    .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
             }
             .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
             
