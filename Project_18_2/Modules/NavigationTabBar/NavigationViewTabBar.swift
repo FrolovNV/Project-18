@@ -25,6 +25,7 @@ struct NavigationViewTabBar: View {
             
             Button(action: {
                 tabBarViewModel.showSheet.toggle()
+                print(tabBarViewModel.navigationPosition)
             }, label: {
                 Image(systemName: tabBarViewModel.colorAndName.1)
                     .foregroundColor(.white)

@@ -13,6 +13,8 @@ import Combine
 class ProjectHeaderViewModel: ObservableObject{
     @Published public var title = "PROJECT"
     @Published public var flag = false
+    
+    
     @Published public var showSheetOfFilter = false
     @Published public var selectedFilterMode = 0
     @Published public var dragOffset: CGFloat = -400

@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct AddProjectView: View {
-    @EnvironmentObject var tabBarView: TabBarViewModel
+    @ObservedObject var tabBarView: TabBarViewModel
     @EnvironmentObject var userSettings: UserDefaultsSettings
     @Environment(\.managedObjectContext) private var viewContext
     @State var title: String = ""
     
     var body: some View {
-        if (tabBarView.showSheet) && (tabBarView.navigationPosition == .createProject){
+        if (tabBarView.navigationPosition == .createProject) && (tabBarView.showSheet){
             VStack {
                 Spacer()
                 RoundedRectangle(cornerRadius: 15.0)
@@ -38,7 +38,12 @@ struct AddProjectView: View {
                                 Spacer()
                                 Button(action: {
                                     tabBarView.showSheet.toggle()
-                                    ProjectDatabase.shared.addNewProject(context: viewContext, user: userSettings.user!, title: title, price: "0.00$")
+                                    ProjectDatabase.shared.addNewProject(
+                                        context: viewContext,
+                                        user: userSettings.user!,
+                                        title: title,
+                                        price: "0.00$"
+                                    )
                                     title = ""
                                 }, label: {
                                     Text("Create")
@@ -69,8 +74,8 @@ struct AddProjectView: View {
     }
 }
 
-struct AddProjectView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddProjectView()
-    }
-}
+//struct AddProjectView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddProjectView()
+//    }
+//}

@@ -12,6 +12,7 @@ struct MainNavigationView: View {
     @EnvironmentObject var userSettings: UserDefaultsSettings
     @StateObject var projectHeaderViewModel = ProjectHeaderViewModel()
     @StateObject var tabBarView = TabBarViewModel()
+    @StateObject var taskHeaderViewModel = TaskHeaderViewModel()
     
     @State var dragOffset: CGFloat = 0
     
@@ -44,13 +45,14 @@ struct MainNavigationView: View {
                 }
                 .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
             
-            
+            AddNewTaskView(tabBarView: tabBarView)
             FilterView(headerViewModel: self.projectHeaderViewModel)
                 .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
-            AddProjectView()
+            AddProjectView(tabBarView: tabBarView)
         }
         .environmentObject(userSettings)
         .environmentObject(tabBarView)
+        .environmentObject(self.taskHeaderViewModel)
         .navigationBarHidden(true)
     }
 }

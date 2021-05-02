@@ -91,4 +91,25 @@ class ProjectDatabase {
             print(error)
         }
     }
+    
+    
+    func addNewIntoProjectTask(context: NSManagedObjectContext, project: Project, person: UserModels, title: String) {
+        
+        let newTask = Tasks(context: context)
+        newTask.id = UUID()
+        newTask.title = title
+        newTask.priceDollar = 0
+        newTask.priceCent = 0
+        
+        person.addToTask(newTask)
+        project.addToTasks(newTask)
+        
+        do {
+            try context.save()
+        }
+        catch {
+            print(error)
+        }
+    }
+    
 }

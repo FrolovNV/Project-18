@@ -51,7 +51,7 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             HeaderSettings(
-                image: viewModel.image,
+                image: userSettings.user?.uiImage,
                 firstName: viewModel.firstName,
                 lastName: viewModel.lastName,
                 email: viewModel.email,

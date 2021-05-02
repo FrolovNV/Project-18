@@ -16,6 +16,9 @@ struct ListItemBackground: View {
     @FetchRequest(fetchRequest: ProjectDatabase.shared.getAllUsersProjects()) var fetchProjects
     
     private var projects: [Project] {
+        if self.tabBarViewModel.navigationPosition != .createProject {
+            return fetchProjects.map {$0}
+        }
         if headerViewModel.selectedFilterMode == 0 {
             return fetchProjects.sorted { $0.title! < $1.title! }
         } else if headerViewModel.selectedFilterMode == 1 {
@@ -49,6 +52,7 @@ struct ListItemBackground: View {
             }
         }
         .onAppear {
+            self.headerViewModel.flag = false
             self.tabBarViewModel.navigationPosition = .createProject
         }
         .background(Color.gray.opacity(0.15))

@@ -28,17 +28,19 @@ struct ListItem: View {
             .overlay(
                 VStack {
                     HStack {
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                Text(project.title!)
-                                    .font(.custom("Roboto-Bold", size: 18))
-                                if self.complited {
-                                    Image("Done")
-                                        .foregroundColor(.green)
+                        NavigationLink(destination: ListOfTask(project: project)) {
+                            VStack(alignment: .leading, spacing: 10) {
+                                HStack {
+                                    Text(project.title!)
+                                        .font(.custom("Roboto-Bold", size: 18))
+                                    if self.complited {
+                                        Image("Done")
+                                            .foregroundColor(.green)
+                                    }
                                 }
+                                Text(project.price!)
+                                    .font(.custom("Roboto-Light", size: 15))
                             }
-                            Text(project.price!)
-                                .font(.custom("Roboto-Light", size: 15))
                         }
                         Spacer()
                         Image(uiImage: photo)

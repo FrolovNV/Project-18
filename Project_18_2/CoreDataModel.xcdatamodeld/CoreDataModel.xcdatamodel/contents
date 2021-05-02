@@ -8,6 +8,18 @@
         <attribute name="price" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="persons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserModels" inverseName="teams" inverseEntity="UserModels"/>
+        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tasks" inverseName="project" inverseEntity="Tasks"/>
+    </entity>
+    <entity name="Tasks" representedClassName=".Tasks" syncable="YES">
+        <attribute name="complitedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="creatingDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="priceCent" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="priceDollar" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="person" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserModels" inverseName="task" inverseEntity="UserModels"/>
+        <relationship name="project" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Projects" inverseName="tasks" inverseEntity="Projects"/>
     </entity>
     <entity name="UserModels" representedClassName=".UserModels" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String"/>
@@ -17,10 +29,12 @@
         <attribute name="lastName" optional="YES" attributeType="String"/>
         <attribute name="mobile" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
+        <relationship name="task" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tasks" inverseName="person" inverseEntity="Tasks"/>
         <relationship name="teams" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Projects" inverseName="persons" inverseEntity="Projects"/>
     </entity>
     <elements>
-        <element name="Projects" positionX="283.5038452148438" positionY="10.61639404296875" width="128" height="148"/>
-        <element name="UserModels" positionX="-54" positionY="-9" width="128" height="163"/>
+        <element name="Projects" positionX="236.15673828125" positionY="10.61639404296875" width="143.4114990234375" height="14"/>
+        <element name="UserModels" positionX="-54" positionY="-9" width="128" height="28"/>
+        <element name="Tasks" positionX="273.602294921875" positionY="346.674560546875" width="128" height="28"/>
     </elements>
 </model>

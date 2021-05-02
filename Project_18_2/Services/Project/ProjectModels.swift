@@ -17,6 +17,7 @@ public class Project: NSManagedObject, Identifiable {
     @NSManaged public var complitionDate: Date?
     @NSManaged public var favorite: Bool
     @NSManaged public var persons: NSSet?
+    @NSManaged public var tasks: NSSet?
 }
 
 //MARK:- Add User to Project
@@ -32,5 +33,19 @@ extension Project {
 
     @objc(removePersons:)
     @NSManaged public func removeFromPersons(_ values: NSSet)
+    
+    
+    @objc(addTasksObject:)
+    @NSManaged public func addToTasks(_ value: Tasks)
+
+    @objc(removeTasksObject:)
+    @NSManaged public func removeFromTasks(_ value: Tasks)
+
+    @objc(addTasks:)
+    @NSManaged public func addToTasks(_ values: NSSet)
+
+    @objc(removeTasks:)
+    @NSManaged public func removeFromTasks(_ values: NSSet)
 
 }
+
