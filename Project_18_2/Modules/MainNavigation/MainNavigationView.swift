@@ -20,7 +20,6 @@ struct MainNavigationView: View {
         ZStack {
             VStack(spacing: 0) {
                 ContentOfMainNavigationView()
-                .environmentObject(tabBarView)
                 .environmentObject(projectHeaderViewModel)
                 Spacer()
                 NavigationViewTabBar(tabBarViewModel: tabBarView)

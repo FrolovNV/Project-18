@@ -11,6 +11,7 @@ import SwiftUI
 struct ListItemBackground: View {
     @EnvironmentObject var userSettings: UserDefaultsSettings
     @EnvironmentObject var tabBarViewModel: TabBarViewModel
+    @EnvironmentObject var taskHeaderViewModel: TaskHeaderViewModel
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(fetchRequest: ProjectDatabase.shared.getAllUsersProjects()) var fetchProjects
@@ -45,6 +46,7 @@ struct ListItemBackground: View {
                     VStack(spacing: 0) {
                         ForEach(projects) { project in
                             ListItem(project: project)
+                                .environmentObject(taskHeaderViewModel)
                                 .padding()
                         }
                     }

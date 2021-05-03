@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ListItem: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var taskHeaderViewModel: TaskHeaderViewModel
     var project: Project
     @State var favorite: Bool
     @State var complited: Bool
@@ -28,7 +29,7 @@ struct ListItem: View {
             .overlay(
                 VStack {
                     HStack {
-                        NavigationLink(destination: ListOfTask(project: project)) {
+                        NavigationLink(destination: ListOfTask(project: project).environmentObject(taskHeaderViewModel)) {
                             VStack(alignment: .leading, spacing: 10) {
                                 HStack {
                                     Text(project.title!)

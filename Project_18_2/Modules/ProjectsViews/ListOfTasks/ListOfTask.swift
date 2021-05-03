@@ -12,7 +12,7 @@ struct ListOfTask: View {
     @EnvironmentObject var taskViewModel: TaskHeaderViewModel
     @EnvironmentObject var tabBarViewModel: TabBarViewModel
     var project: Project
-    var fetchTask: FetchRequest<Tasks>
+    @State var fetchTask: FetchRequest<Tasks>
     
     
     private var tasks: [Tasks] {
@@ -22,8 +22,8 @@ struct ListOfTask: View {
 
     init(project: Project) {
         self.project = project
-        self.fetchTask = FetchRequest(fetchRequest: TasksDatabase.shared.getAllTaskOfProject(project: project))
-//        self._fetchTask = State(initialValue: FetchRequest(fetchRequest: TasksDatabase.shared.getAllTaskOfProject(project: project)))
+//        self.fetchTask = FetchRequest(fetchRequest: TasksDatabase.shared.getAllTaskOfProject(project: project))
+        self._fetchTask = State(wrappedValue: FetchRequest(fetchRequest: TasksDatabase.shared.getAllTaskOfProject(project: project)))
     }
     
     var body: some View {

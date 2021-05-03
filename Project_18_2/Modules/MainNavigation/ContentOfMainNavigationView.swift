@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentOfMainNavigationView: View {
     @EnvironmentObject var tabBarView: TabBarViewModel
+    @EnvironmentObject var taskHeaderViewModel: TaskHeaderViewModel
     @EnvironmentObject var projectHeaderViewModel: ProjectHeaderViewModel
     
     var body: some View {
@@ -17,6 +18,7 @@ struct ContentOfMainNavigationView: View {
             case 1:
                 ListItemBackground(headerViewModel: self.projectHeaderViewModel)
                     .navigationBarHidden(true)
+                    .environmentObject(taskHeaderViewModel)
             case 1...3:
                 Text("Not ready")
             case 4:
@@ -25,6 +27,7 @@ struct ContentOfMainNavigationView: View {
                 Text("Not ready")
             }
         }
+        .navigationViewStyle(DefaultNavigationViewStyle())
     }
 }
 

@@ -21,7 +21,19 @@ class TabBarViewModel: ObservableObject {
     @Published var selected: Int = 1
     @Published var selectedIntoView: Int = 1
     @Published var showSheet: Bool = false
-    @Published var navigationPosition: NavigationLinkViews = .createProject
+    @Published var _currentNavigationPosition: NavigationLinkViews = .createProject
+    var navigationPosition: NavigationLinkViews {
+        get {
+            _currentNavigationPosition
+        }
+        set {
+            guard showSheet == false else {
+                return
+            }
+            _currentNavigationPosition = newValue
+        }
+    }
+    
     
     @Published var colorAndName: (Color, String) = (
         Color("Orange"),
